@@ -3,6 +3,7 @@
 //
 
 #include "EGLHelper.h"
+#include <GLES2/gl2.h>
 #include "../log/LogUtil.h"
 
 EGLHelper::EGLHelper() {
@@ -106,4 +107,9 @@ void EGLHelper::destroyEGL() {
         eglTerminate(mEGLDisplay);
     }
     LOGI("egl: destroy egl success!!!");
+}
+
+void EGLHelper::singleDrawColor() {
+    glClearColor(0,1,1,1);
+    glClear(GL_COLOR_BUFFER_BIT);
 }

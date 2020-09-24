@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentInitOpenGLES"
-        android:name="com.zqlxtt.learnopengl.FragmentInitOpenGLES"
+        android:name="com.zqlxtt.learnopengl.L1.FragmentInitOpenGLES"
         android:label="fragment_init_open_g_l_e_s"
         tools:layout="@layout/fragment_init_open_g_l_e_s" />
 </navigation>

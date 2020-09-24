@@ -24,6 +24,8 @@ public :
     int swapBuffers();
 
     void destroyEGL();
+
+    void singleDrawColor();
 };
 
 

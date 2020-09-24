@@ -1,8 +1,9 @@
-package com.zqlxtt.learnopengl
+package com.zqlxtt.learnopengl.L1
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.zqlxtt.learnopengl.R
 import kotlinx.android.synthetic.main.fragment_init_open_g_l_e_s.*
 
 class FragmentInitOpenGLES : Fragment() {
