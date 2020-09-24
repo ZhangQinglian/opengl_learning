@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/opengl_list"
+    app:startDestination="@id/openglStuffFragment">
+
+    <fragment
+        android:id="@+id/openglStuffFragment"
+        android:name="com.zqlxtt.learnopengl.OpenglStuffFragment"
+        android:label="fragment_opengl_stuff_list"
+        tools:layout="@layout/fragment_opengl_stuff_list" >
+        <action
+            android:id="@+id/action_openglStuffFragment_to_fragmentInitOpenGLES"
+            app:destination="@id/fragmentInitOpenGLES" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentInitOpenGLES"
+        android:name="com.zqlxtt.learnopengl.FragmentInitOpenGLES"
+        android:label="fragment_init_open_g_l_e_s"
+        tools:layout="@layout/fragment_init_open_g_l_e_s" />
+</navigation>
