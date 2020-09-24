@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_openglStuffFragment_to_fragmentInitOpenGLES"
             app:destination="@id/fragmentInitOpenGLES" />
+        <action
+            android:id="@+id/action_openglStuffFragment_to_fragmentDrawTriangle"
+            app:destination="@id/fragmentDrawTriangle" />
     </fragment>
     <fragment
         android:id="@+id/fragmentInitOpenGLES"
         android:name="com.zqlxtt.learnopengl.L1.FragmentInitOpenGLES"
         android:label="fragment_init_open_g_l_e_s"
         tools:layout="@layout/fragment_init_open_g_l_e_s" />
+    <fragment
+        android:id="@+id/fragmentDrawTriangle"
+        android:name="com.zqlxtt.learnopengl.L2.FragmentDrawTriangle"
+        android:label="fragment_draw_triangle"
+        tools:layout="@layout/fragment_draw_triangle" />
 </navigation>

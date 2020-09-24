@@ -20,6 +20,11 @@ object OpenGLStuffs {
             1,
             "OpenGLES 环境初始化",
             R.id.action_openglStuffFragment_to_fragmentInitOpenGLES
+        ),
+        OpenGLESLearningItem(
+            2,
+            "OpenGLES 绘制三角形",
+            R.id.action_openglStuffFragment_to_fragmentInitOpenGLES
         )
     )
 

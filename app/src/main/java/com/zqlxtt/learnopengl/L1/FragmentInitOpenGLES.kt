@@ -1,42 +1,21 @@
 package com.zqlxtt.learnopengl.L1
 
-import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import com.zqlxtt.learnopengl.R
-import kotlinx.android.synthetic.main.fragment_init_open_g_l_e_s.*
+import com.zqlxtt.learnopengl.BaseSurfaceFragment
 
-class FragmentInitOpenGLES : Fragment() {
+class FragmentInitOpenGLES : BaseSurfaceFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_init_open_g_l_e_s, container, false)
+    override fun onSurfaceCreated(holder: SurfaceHolder?) {
+        holder?.surface?.let {
+            init_opengl_es(it)
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        surface.holder.addCallback(object : SurfaceHolder.Callback {
-            override fun surfaceChanged(
-                holder: SurfaceHolder?,
-                format: Int,
-                width: Int,
-                height: Int
-            ) {
+    override fun onSurfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    }
 
-            }
-
-            override fun surfaceDestroyed(holder: SurfaceHolder?) {
-                destroy_opengl_es()
-            }
-
-            override fun surfaceCreated(holder: SurfaceHolder?) {
-                holder?.surface?.let {
-                    init_opengl_es(it)
-                }
-            }
-
-        })
+    override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
+        destroy_opengl_es()
     }
 
 
