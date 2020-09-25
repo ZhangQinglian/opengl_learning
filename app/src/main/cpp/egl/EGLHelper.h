@@ -25,7 +25,9 @@ public :
 
     void destroyEGL();
 
-    void singleDrawColor();
+    void singleDrawColor(float, float, float, float);
+
+    void singleDrawTriangle();
 };
 
 

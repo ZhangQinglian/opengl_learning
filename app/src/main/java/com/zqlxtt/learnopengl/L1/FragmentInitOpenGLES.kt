@@ -1,13 +1,17 @@
 package com.zqlxtt.learnopengl.L1
 
+import android.util.Log
 import android.view.*
 import com.zqlxtt.learnopengl.BaseSurfaceFragment
 
 class FragmentInitOpenGLES : BaseSurfaceFragment() {
 
     override fun onSurfaceCreated(holder: SurfaceHolder?) {
+        Log.d("scott","onSurfaceCreated")
         holder?.surface?.let {
+            Log.d("scott","init open gl es")
             init_opengl_es(it)
+            drawColor(0.5F,0.5F,1F,1F)
         }
     }
 
@@ -15,10 +19,7 @@ class FragmentInitOpenGLES : BaseSurfaceFragment() {
     }
 
     override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
+        Log.d("scott","onSurfaceDestroyed")
         destroy_opengl_es()
     }
-
-
-    external fun init_opengl_es(surface: Surface)
-    external fun destroy_opengl_es();
 }

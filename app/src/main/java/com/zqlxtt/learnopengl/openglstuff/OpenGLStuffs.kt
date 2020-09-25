@@ -24,7 +24,7 @@ object OpenGLStuffs {
         OpenGLESLearningItem(
             2,
             "OpenGLES 绘制三角形",
-            R.id.action_openglStuffFragment_to_fragmentInitOpenGLES
+            R.id.action_openglStuffFragment_to_fragmentDrawTriangle
         )
     )
 
