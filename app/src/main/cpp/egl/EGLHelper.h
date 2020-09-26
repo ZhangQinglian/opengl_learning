@@ -24,10 +24,6 @@ public :
     int swapBuffers();
 
     void destroyEGL();
-
-    void singleDrawColor(float, float, float, float);
-
-    void singleDrawTriangle();
 };
 
 

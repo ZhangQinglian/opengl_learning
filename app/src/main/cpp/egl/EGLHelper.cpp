@@ -3,7 +3,7 @@
 //
 
 #include "EGLHelper.h"
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include "../log/LogUtil.h"
 
 EGLHelper::EGLHelper() {
@@ -108,50 +108,4 @@ void EGLHelper::destroyEGL() {
         eglTerminate(mEGLDisplay);
     }
     LOGI("egl: destroy egl success!!!");
-}
-
-void EGLHelper::singleDrawColor(float red, float green, float blue, float alpha) {
-    glClearColor(red, green, blue, alpha);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void EGLHelper::singleDrawTriangle() {
-    glClearColor(1, 1, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    float vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f
-    };
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    const char *vertexShaderSource = "attribute vec3 vPos;\n"
-                                     "void main()\n"
-                                     "{\n"
-                                     " gl_Position = vec4(vPos.x, vPos.y, vPos.z, 1.0);\n"
-                                     "}\0";
-
-    const char *fragmentShaderSource ="void main()\n"
-                                       "{\n"
-                                       "gl_FragColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);\n"
-                                       "}";
-    unsigned int vertexShader;
-    unsigned int fragmentShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-    glCompileShader(vertexShader);
-    glCompileShader(fragmentShader);
-
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-
-    GLint vPos = glGetAttribLocation(shaderProgram,"vPos");
-    glEnableVertexAttribArray(vPos);
-    glVertexAttribPointer(vPos, 3, GL_FLOAT, EGL_FALSE, 3 * sizeof(float), vertices);
-    glUseProgram(shaderProgram);
-
-    glDrawArrays(GL_TRIANGLES,0,3);
 }
