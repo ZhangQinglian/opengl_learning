@@ -13,11 +13,16 @@ public:
 
     ~GLHelper();
 
-    GLuint loadShader(GLenum type,const char *shaderSrc);
+    GLuint loadShader(GLenum type, const char *shaderSrc);
+
+    GLuint loadProgram(GLuint vertextShader, GLuint fragmentShader);
 
     void singleDrawColor(float, float, float, float);
 
     void singleDrawTriangle();
+
+    GLint checkShaderCompiled(GLuint shader);
+    GLint checkProgramLinked(GLuint program);
 };
 
 
