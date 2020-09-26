@@ -48,13 +48,9 @@ void GLHelper::singleDrawTriangle() {
     glDeleteProgram(shaderProgram);
 }
 
-GLHelper::GLHelper() {
+GLHelper::GLHelper() = default;
 
-}
-
-GLHelper::~GLHelper() {
-
-}
+GLHelper::~GLHelper() = default;
 
 GLuint GLHelper::loadShader(GLenum type, const char *shaderSrc) {
     GLuint shader;
