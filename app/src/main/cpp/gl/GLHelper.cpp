@@ -45,6 +45,8 @@ void GLHelper::singleDrawTriangle() {
     glEnableVertexAttribArray(0);
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
     glDeleteProgram(shaderProgram);
 }
 
@@ -58,7 +60,7 @@ GLuint GLHelper::loadShader(GLenum type, const char *shaderSrc) {
     shader = glCreateShader(type);
     if (shader == 0) {
         //create the shader error
-        return 0;
+        return GL_FALSE;
     }
 
     // load the shader source
@@ -71,7 +73,7 @@ GLuint GLHelper::loadShader(GLenum type, const char *shaderSrc) {
     if (checkShaderCompiled(shader)) {
         return shader;
     } else {
-        return 0;
+        return GL_FALSE;
     }
 }
 
@@ -88,16 +90,16 @@ GLint GLHelper::checkShaderCompiled(GLuint shader) {
             delete[]infoLog;
         }
         glDeleteShader(shader);
-        return 0;
+        return GL_FALSE;
     }
-    return 1;
+    return GL_TRUE;
 }
 
 GLuint GLHelper::loadProgram(GLuint vertextShader, GLuint fragmentShader) {
     GLuint program;
     program = glCreateProgram();
     if (program == 0) {
-        return 0;
+        return GL_FALSE;
     }
     glAttachShader(program, vertextShader);
     glAttachShader(program, fragmentShader);
@@ -105,7 +107,7 @@ GLuint GLHelper::loadProgram(GLuint vertextShader, GLuint fragmentShader) {
     if (checkProgramLinked(program)) {
         return program;
     } else {
-        return 0;
+        return GL_FALSE;
     }
 }
 
@@ -122,7 +124,7 @@ GLint GLHelper::checkProgramLinked(GLuint program) {
             delete[]infoLog;
         }
         glDeleteProgram(program);
-        return 0;
+        return GL_FALSE;
     }
-    return 1;
+    return GL_TRUE;
 }

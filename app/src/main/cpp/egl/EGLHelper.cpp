@@ -21,16 +21,21 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
     //1. 获取默认显示设备
     mEGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (mEGLDisplay == EGL_NO_DISPLAY) {
+        // Unable to open connection to local windowing system
         LOGE("EGL: get display error !!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     //2. 初始化默认显示设备
     EGLint *version = new EGLint[2];
     if (!eglInitialize(mEGLDisplay, &version[0], &version[1])) {
+        // Unable to initialize EGL; handle and recover
         LOGE("EGL: init display error !!!");
-        return -1;
+        delete[]version;
+        return EGL_FALSE;
     }
+    delete[] version;
+
     LOGI("egl: version major: %d, minor : %d", version[0], version[1]);
 
     //3. 设置显示设备属性
@@ -47,48 +52,48 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
     EGLint num_config;
     if (!eglChooseConfig(mEGLDisplay, attr, NULL, 1, &num_config)) {
         LOGE("EGL: choose config error1!!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     //4. 从系统中获取对应属性的配置
     if (!eglChooseConfig(mEGLDisplay, attr, &mEGLConfig, num_config, &num_config)) {
         LOGE("EGL: choose config error2!!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     //5. 创建 EGLContext
-    int attr_list[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
+    int attr_list[] = {EGL_CONTEXT_CLIENT_VERSION,3, EGL_NONE};
     mEGLContext = eglCreateContext(mEGLDisplay, mEGLConfig, EGL_NO_CONTEXT, attr_list);
     if (mEGLContext == EGL_NO_CONTEXT) {
         LOGE("EGL: create egl context error!!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     //6. 创建渲染的 surface
     mEGLSurface = eglCreateWindowSurface(mEGLDisplay, mEGLConfig, windowType, nullptr);
     if (mEGLSurface == EGL_NO_SURFACE) {
         LOGE("EGL: create surface error!!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     //7. 绑定 EGLContext 和 Surface 到设备显示器
     if (!eglMakeCurrent(mEGLDisplay, mEGLSurface, mEGLSurface, mEGLContext)) {
         LOGE("EGL: make current error!!!");
-        return -1;
+        return EGL_FALSE;
     }
 
     LOGI("egl init success!!!");
 
-    return 0;
+    return EGL_TRUE;
 }
 
 int EGLHelper::swapBuffers() {
     if (mEGLDisplay != EGL_NO_DISPLAY && mEGLSurface != EGL_NO_SURFACE) {
         if (eglSwapBuffers(mEGLDisplay, mEGLSurface)) {
-            return 0;
+            return EGL_TRUE;
         }
     }
-    return -1;
+    return EGL_FALSE;
 }
 
 void EGLHelper::destroyEGL() {
