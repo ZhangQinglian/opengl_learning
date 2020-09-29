@@ -50,6 +50,53 @@ void GLHelper::singleDrawTriangle() {
     glDeleteProgram(shaderProgram);
 }
 
+
+void GLHelper::singleDrawColorTriangle() {
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    float vertices[] = {
+            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    const char *vertexShaderSource =
+            "#version 300 es                            \n"
+            "layout(location = 0) in vec3 vPosition;    \n"
+            "layout(location = 1) in vec3 vColor;    \n"
+            "out vec3 fColor;    \n"
+            "void main()                                \n"
+            "{                                          \n"
+            " gl_Position = vec4(vPosition, 1.0);                  \n"
+            " fColor = vColor;                  \n"
+            "}                                          \n";
+
+    const char *fragmentShaderSource =
+            "#version 300 es                            \n"
+            "out vec4 fragColor;                        \n"
+            "in vec3 fColor;                        \n"
+            "void main()                                \n"
+            "{                                          \n"
+            " fragColor = vec4 (fColor, 1.0f);  \n"
+            "}                                          \n";
+    GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertexShaderSource);
+    GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    GLuint shaderProgram = loadProgram(vertexShader, fragmentShader);
+    glUseProgram(shaderProgram);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, EGL_FALSE, sizeof(float) * 6, vertices);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6,
+                          vertices + 3);
+    glEnableVertexAttribArray(1);
+
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    glDeleteProgram(shaderProgram);
+}
+
 GLHelper::GLHelper() = default;
 
 GLHelper::~GLHelper() = default;
@@ -128,3 +175,4 @@ GLint GLHelper::checkProgramLinked(GLuint program) {
     }
     return GL_TRUE;
 }
+

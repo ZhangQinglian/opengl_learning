@@ -21,6 +21,8 @@ public:
 
     void singleDrawTriangle();
 
+    void singleDrawColorTriangle();
+
     GLint checkShaderCompiled(GLuint shader);
     GLint checkProgramLinked(GLuint program);
 };

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_openglStuffFragment_to_fragmentDrawTriangle"
             app:destination="@id/fragmentDrawTriangle" />
+        <action
+            android:id="@+id/action_openglStuffFragment_to_fragmentDrawColorTriangle"
+            app:destination="@id/blankFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentInitOpenGLES"
@@ -27,4 +30,9 @@
         android:name="com.zqlxtt.learnopengl.L2.FragmentDrawTriangle"
         android:label="fragment_draw_triangle"
         tools:layout="@layout/fragment_draw_triangle" />
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.zqlxtt.learnopengl.L3.FragmentDrawColorTriangle"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" />
 </navigation>

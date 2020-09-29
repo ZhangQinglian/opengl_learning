@@ -51,7 +51,8 @@ abstract class BaseSurfaceFragment : Fragment(), SurfaceHolder.Callback {
 
     abstract fun onSurfaceDestroyed(holder: SurfaceHolder?)
     external fun init_opengl_es(surface: Surface)
-    external fun destroy_opengl_es();
-    external fun drawColor(red: Float, green: Float, blue: Float, alpha: Float);
-    external fun drawTriangle();
+    external fun destroy_opengl_es()
+    external fun drawColor(red: Float, green: Float, blue: Float, alpha: Float)
+    external fun drawTriangle()
+    external fun drawColorTriangle()
 }

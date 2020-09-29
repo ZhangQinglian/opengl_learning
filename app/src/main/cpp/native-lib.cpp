@@ -35,4 +35,9 @@ JNIEXPORT void JNICALL
 Java_com_zqlxtt_learnopengl_BaseSurfaceFragment_drawTriangle(JNIEnv *env, jobject thiz) {
     glHelper->singleDrawTriangle();
     eglHelper->swapBuffers();
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_zqlxtt_learnopengl_BaseSurfaceFragment_drawColorTriangle(JNIEnv *env, jobject thiz) {
+    glHelper->singleDrawColorTriangle();
+    eglHelper->swapBuffers();
 }
