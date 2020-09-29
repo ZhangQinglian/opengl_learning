@@ -27,16 +27,14 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
     }
 
     //2. 初始化默认显示设备
-    EGLint *version = new EGLint[2];
-    if (!eglInitialize(mEGLDisplay, &version[0], &version[1])) {
+    EGLint majorVersion,minorVersion;
+    if (!eglInitialize(mEGLDisplay, &majorVersion, &minorVersion)) {
         // Unable to initialize EGL; handle and recover
         LOGE("EGL: init display error !!!");
-        delete[]version;
         return EGL_FALSE;
     }
-    delete[] version;
 
-    LOGI("egl: version major: %d, minor : %d", version[0], version[1]);
+    LOGI("egl: version major: %d, minor : %d", majorVersion, minorVersion);
 
     //3. 设置显示设备属性
     const EGLint attr[] = {
@@ -50,7 +48,7 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
             EGL_NONE
     };
     EGLint num_config;
-    if (!eglChooseConfig(mEGLDisplay, attr, NULL, 1, &num_config)) {
+    if (!eglChooseConfig(mEGLDisplay, attr, nullptr, 1, &num_config)) {
         LOGE("EGL: choose config error1!!!");
         return EGL_FALSE;
     }
