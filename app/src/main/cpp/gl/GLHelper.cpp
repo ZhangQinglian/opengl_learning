@@ -5,12 +5,16 @@
 #include <EGL/egl.h>
 #include <jni.h>
 #include <android/native_window_jni.h>
+#include <iostream>
 #include "GLHelper.h"
 #include "../egl/EGLHelper.h"
 #include "../log/LogUtil.h"
+#include "../egl/EGLThread.h"
 
-void GLHelper::singleDrawColor(JNIEnv *env,jobject surface,float red, float green, float blue, float alpha) {
-    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+
+void GLHelper::singleDrawColor(JNIEnv *env, jobject surface, float red, float green, float blue,
+                               float alpha) {
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env, surface);
     auto *eglHelper = new EGLHelper();
     eglHelper->initEGL(aNativeWindow);
     glClearColor(red, green, blue, alpha);
@@ -20,8 +24,8 @@ void GLHelper::singleDrawColor(JNIEnv *env,jobject surface,float red, float gree
     delete eglHelper;
 }
 
-void GLHelper::singleDrawTriangle(JNIEnv *env,jobject surface) {
-    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+void GLHelper::singleDrawTriangle(JNIEnv *env, jobject surface) {
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env, surface);
     auto *eglHelper = new EGLHelper();
     eglHelper->initEGL(aNativeWindow);
 
@@ -68,9 +72,9 @@ void GLHelper::singleDrawTriangle(JNIEnv *env,jobject surface) {
 }
 
 
-void GLHelper::singleDrawColorTriangle(JNIEnv *env,jobject surface) {
+void GLHelper::singleDrawColorTriangle(JNIEnv *env, jobject surface) {
 
-    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env, surface);
     auto *eglHelper = new EGLHelper();
     eglHelper->initEGL(aNativeWindow);
 
@@ -201,8 +205,90 @@ GLint GLHelper::checkProgramLinked(GLuint program) {
     }
     return GL_TRUE;
 }
+void GLHelper::drawColorTriangleWithThread(JNIEnv *env, jobject surface) {
+    aNativeWindow = ANativeWindow_fromSurface(env, surface);
+}
 
-void GLHelper::drawColorTriangleWithThread() {
+void GLHelper::onSurfaceCreated(JNIEnv *env, jobject surface) {
+    eglThread = new EGLThread();
+    eglThread->setRenderType(OPENGL_RENDER_MANUAL);
+    eglThread->setOnSurfaceCreatedCallback(onSurfaceCreatedCallback, this);
+    eglThread->setOnSurfaceChangedCallback(onSurfaceChangedCallback, this);
+    eglThread->setOnSurfaceDestroyCallback(onSurfaceDestroyCallback, this);
+    eglThread->setOnFilterChangedCallback(onFilterChangedCallback, this);
+    eglThread->setOnDrawCallback(onDrawCallback, this);
+    eglThread->onSurfaceCreated(aNativeWindow);
+}
+
+void GLHelper::onSurfaceChanged(int width, int height) {
+    eglThread->onSurfaceChanged(width,height);
+}
+
+void GLHelper::onSurfaceDestroy() {
 
 }
 
+void onSurfaceCreatedCallback(void *ctx) {
+
+}
+
+void onSurfaceChangedCallback(void *ctx, int width, int height) {
+    LOGI("gl: onSurfaceChangedCallback");
+}
+
+void onSurfaceDestroyCallback(void *ctx) {
+    LOGI("gl: onSurfaceDestroyCallback");
+}
+
+void onFilterChangedCallback(void *ctx, int width, int height) {
+    LOGI("gl: onFilterChangedCallback");
+}
+
+void onDrawCallback(void *ctx) {
+    LOGI("gl: onDrawCallback");
+    auto *glHelper = static_cast<GLHelper*>(ctx);
+    LOGI("gl: onSurfaceCreatedCallback");
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    float vertices[] = {
+            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    const char *vertexShaderSource =
+            "#version 300 es                            \n"
+            "layout(location = 0) in vec3 vPosition;    \n"
+            "layout(location = 1) in vec3 vColor;    \n"
+            "out vec3 fColor;    \n"
+            "void main()                                \n"
+            "{                                          \n"
+            " gl_Position = vec4(vPosition, 1.0);                  \n"
+            " fColor = vColor;                  \n"
+            "}                                          \n";
+
+    const char *fragmentShaderSource =
+            "#version 300 es                            \n"
+            "out vec4 fragColor;                        \n"
+            "in vec3 fColor;                        \n"
+            "void main()                                \n"
+            "{                                          \n"
+            " fragColor = vec4 (fColor, 1.0f);  \n"
+            "}                                          \n";
+    GLuint vertexShader = glHelper->loadShader(GL_VERTEX_SHADER, vertexShaderSource);
+    GLuint fragmentShader = glHelper->loadShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    GLuint shaderProgram = glHelper->loadProgram(vertexShader, fragmentShader);
+    glUseProgram(shaderProgram);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, EGL_FALSE, sizeof(float) * 6, vertices);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6,
+                          vertices + 3);
+    glEnableVertexAttribArray(1);
+
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    glDeleteProgram(shaderProgram);
+}

@@ -50,6 +50,10 @@ abstract class BaseSurfaceFragment : Fragment(), SurfaceHolder.Callback {
     abstract fun onSurfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int)
 
     abstract fun onSurfaceDestroyed(holder: SurfaceHolder?)
+
+    external fun onSurfaceCreatedN(surface: Surface);
+    external fun onSurfaceChangedN(width: Int,height: Int);
+    external fun onSurfaceDestroyN();
     external fun drawColor(red: Float, green: Float, blue: Float, alpha: Float,surface: Surface)
     external fun drawTriangle(surface: Surface)
     external fun drawColorTriangle(surface: Surface)
