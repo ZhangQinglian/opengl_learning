@@ -7,6 +7,7 @@ class FragmentEGLThread : BaseSurfaceFragment() {
     override fun onSurfaceCreated(holder: SurfaceHolder?) {
         holder?.surface?.let {
             drawTriangleWithThread(it)
+            onSurfaceCreatedN(it);
         }
     }
 

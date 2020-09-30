@@ -205,6 +205,7 @@ GLint GLHelper::checkProgramLinked(GLuint program) {
     }
     return GL_TRUE;
 }
+
 void GLHelper::drawColorTriangleWithThread(JNIEnv *env, jobject surface) {
     aNativeWindow = ANativeWindow_fromSurface(env, surface);
 }
@@ -221,15 +222,15 @@ void GLHelper::onSurfaceCreated(JNIEnv *env, jobject surface) {
 }
 
 void GLHelper::onSurfaceChanged(int width, int height) {
-    eglThread->onSurfaceChanged(width,height);
+    eglThread->onSurfaceChanged(width, height);
 }
 
 void GLHelper::onSurfaceDestroy() {
-
+    eglThread->onSurfaceDestroy();
 }
 
 void onSurfaceCreatedCallback(void *ctx) {
-
+    LOGI("gl: onSurfaceCreatedCallback");
 }
 
 void onSurfaceChangedCallback(void *ctx, int width, int height) {
@@ -238,6 +239,11 @@ void onSurfaceChangedCallback(void *ctx, int width, int height) {
 
 void onSurfaceDestroyCallback(void *ctx) {
     LOGI("gl: onSurfaceDestroyCallback");
+    auto *glHelper = static_cast<GLHelper *>(ctx);
+    if (glHelper != nullptr) {
+        delete glHelper->eglThread;
+        glHelper->eglThread = nullptr;
+    }
 }
 
 void onFilterChangedCallback(void *ctx, int width, int height) {
@@ -246,7 +252,7 @@ void onFilterChangedCallback(void *ctx, int width, int height) {
 
 void onDrawCallback(void *ctx) {
     LOGI("gl: onDrawCallback");
-    auto *glHelper = static_cast<GLHelper*>(ctx);
+    auto *glHelper = static_cast<GLHelper *>(ctx);
     LOGI("gl: onSurfaceCreatedCallback");
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
