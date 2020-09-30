@@ -8,8 +8,7 @@ class FragmentDrawColorTriangle : BaseSurfaceFragment() {
     override fun onSurfaceCreated(holder: SurfaceHolder?) {
         holder?.surface?.let {
             Log.d("scott", "init open gl es")
-            init_opengl_es(it)
-            drawColorTriangle()
+            drawColorTriangle(it)
         }
     }
 
@@ -17,7 +16,6 @@ class FragmentDrawColorTriangle : BaseSurfaceFragment() {
     }
 
     override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
-        destroy_opengl_es()
     }
 
 }

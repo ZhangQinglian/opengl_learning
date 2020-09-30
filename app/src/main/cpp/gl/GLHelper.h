@@ -17,12 +17,13 @@ public:
 
     GLuint loadProgram(GLuint vertextShader, GLuint fragmentShader);
 
-    void singleDrawColor(float, float, float, float);
+    void singleDrawColor(JNIEnv *env,jobject surface,float, float, float, float);
 
-    void singleDrawTriangle();
+    void singleDrawTriangle(JNIEnv *env,jobject surface);
 
-    void singleDrawColorTriangle();
+    void singleDrawColorTriangle(JNIEnv *env,jobject surface);
 
+    void drawColorTriangleWithThread();
     GLint checkShaderCompiled(GLuint shader);
     GLint checkProgramLinked(GLuint program);
 };

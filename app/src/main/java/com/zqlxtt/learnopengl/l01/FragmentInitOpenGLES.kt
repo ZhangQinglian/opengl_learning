@@ -10,8 +10,7 @@ class FragmentInitOpenGLES : BaseSurfaceFragment() {
         Log.d("scott","onSurfaceCreated")
         holder?.surface?.let {
             Log.d("scott","init open gl es")
-            init_opengl_es(it)
-            drawColor(0.5F,0.5F,1F,1F)
+            drawColor(0.5F,0.5F,1F,1F,it)
         }
     }
 
@@ -20,6 +19,5 @@ class FragmentInitOpenGLES : BaseSurfaceFragment() {
 
     override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
         Log.d("scott","onSurfaceDestroyed")
-        destroy_opengl_es()
     }
 }

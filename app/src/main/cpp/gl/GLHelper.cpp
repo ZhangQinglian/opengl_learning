@@ -3,15 +3,28 @@
 //
 
 #include <EGL/egl.h>
+#include <jni.h>
+#include <android/native_window_jni.h>
 #include "GLHelper.h"
+#include "../egl/EGLHelper.h"
 #include "../log/LogUtil.h"
 
-void GLHelper::singleDrawColor(float red, float green, float blue, float alpha) {
+void GLHelper::singleDrawColor(JNIEnv *env,jobject surface,float red, float green, float blue, float alpha) {
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+    auto *eglHelper = new EGLHelper();
+    eglHelper->initEGL(aNativeWindow);
     glClearColor(red, green, blue, alpha);
     glClear(GL_COLOR_BUFFER_BIT);
+    eglHelper->swapBuffers();
+    ANativeWindow_release(aNativeWindow);
+    delete eglHelper;
 }
 
-void GLHelper::singleDrawTriangle() {
+void GLHelper::singleDrawTriangle(JNIEnv *env,jobject surface) {
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+    auto *eglHelper = new EGLHelper();
+    eglHelper->initEGL(aNativeWindow);
+
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     float vertices[] = {
@@ -48,10 +61,19 @@ void GLHelper::singleDrawTriangle() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     glDeleteProgram(shaderProgram);
+
+    eglHelper->swapBuffers();
+    ANativeWindow_release(aNativeWindow);
+    delete eglHelper;
 }
 
 
-void GLHelper::singleDrawColorTriangle() {
+void GLHelper::singleDrawColorTriangle(JNIEnv *env,jobject surface) {
+
+    ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env,surface);
+    auto *eglHelper = new EGLHelper();
+    eglHelper->initEGL(aNativeWindow);
+
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     float vertices[] = {
@@ -95,6 +117,10 @@ void GLHelper::singleDrawColorTriangle() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     glDeleteProgram(shaderProgram);
+
+    eglHelper->swapBuffers();
+    ANativeWindow_release(aNativeWindow);
+    delete eglHelper;
 }
 
 GLHelper::GLHelper() = default;
@@ -174,5 +200,9 @@ GLint GLHelper::checkProgramLinked(GLuint program) {
         return GL_FALSE;
     }
     return GL_TRUE;
+}
+
+void GLHelper::drawColorTriangleWithThread() {
+
 }
 
