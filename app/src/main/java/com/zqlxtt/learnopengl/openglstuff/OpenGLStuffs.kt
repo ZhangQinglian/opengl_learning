@@ -30,6 +30,11 @@ object OpenGLStuffs {
             3,
             "OpenGLES 绘制彩色三角形",
             R.id.action_openglStuffFragment_to_fragmentDrawColorTriangle
+        ),
+        OpenGLESLearningItem(
+            4,
+            "OpenGLES 线程",
+            R.id.action_openglStuffFragment_to_fragmentEGLThread
         )
     )
 

@@ -19,20 +19,28 @@
         <action
             android:id="@+id/action_openglStuffFragment_to_fragmentDrawColorTriangle"
             app:destination="@id/blankFragment" />
+        <action
+            android:id="@+id/action_openglStuffFragment_to_fragmentEGLThread"
+            app:destination="@id/fragmentEGLThread" />
     </fragment>
     <fragment
         android:id="@+id/fragmentInitOpenGLES"
-        android:name="com.zqlxtt.learnopengl.L1.FragmentInitOpenGLES"
+        android:name="com.zqlxtt.learnopengl.l01.FragmentInitOpenGLES"
         android:label="fragment_init_open_g_l_e_s"
         tools:layout="@layout/fragment_init_open_g_l_e_s" />
     <fragment
         android:id="@+id/fragmentDrawTriangle"
-        android:name="com.zqlxtt.learnopengl.L2.FragmentDrawTriangle"
+        android:name="com.zqlxtt.learnopengl.l02.FragmentDrawTriangle"
         android:label="fragment_draw_triangle"
         tools:layout="@layout/fragment_draw_triangle" />
     <fragment
         android:id="@+id/blankFragment"
-        android:name="com.zqlxtt.learnopengl.L3.FragmentDrawColorTriangle"
+        android:name="com.zqlxtt.learnopengl.l03.FragmentDrawColorTriangle"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_blank" />
+    <fragment
+        android:id="@+id/fragmentEGLThread"
+        android:name="com.zqlxtt.learnopengl.FragmentEGLThread"
+        android:label="fragment_e_g_l_thread"
+        tools:layout="@layout/fragment_e_g_l_thread" />
 </navigation>

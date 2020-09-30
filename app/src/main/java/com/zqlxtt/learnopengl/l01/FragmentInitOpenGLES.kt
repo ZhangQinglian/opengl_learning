@@ -1,15 +1,17 @@
-package com.zqlxtt.learnopengl.L3
+package com.zqlxtt.learnopengl.l01
 
 import android.util.Log
-import android.view.SurfaceHolder
+import android.view.*
 import com.zqlxtt.learnopengl.BaseSurfaceFragment
 
-class FragmentDrawColorTriangle : BaseSurfaceFragment() {
+class FragmentInitOpenGLES : BaseSurfaceFragment() {
+
     override fun onSurfaceCreated(holder: SurfaceHolder?) {
+        Log.d("scott","onSurfaceCreated")
         holder?.surface?.let {
-            Log.d("scott", "init open gl es")
+            Log.d("scott","init open gl es")
             init_opengl_es(it)
-            drawColorTriangle()
+            drawColor(0.5F,0.5F,1F,1F)
         }
     }
 
@@ -17,7 +19,7 @@ class FragmentDrawColorTriangle : BaseSurfaceFragment() {
     }
 
     override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
+        Log.d("scott","onSurfaceDestroyed")
         destroy_opengl_es()
     }
-
 }

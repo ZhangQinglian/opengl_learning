@@ -1,4 +1,4 @@
-package com.zqlxtt.learnopengl.L2
+package com.zqlxtt.learnopengl.l02
 
 import android.util.Log
 import android.view.SurfaceHolder
