@@ -253,7 +253,6 @@ void onFilterChangedCallback(void *ctx, int width, int height) {
 void onDrawCallback(void *ctx) {
     LOGI("gl: onDrawCallback");
     auto *glHelper = static_cast<GLHelper *>(ctx);
-    LOGI("gl: onSurfaceCreatedCallback");
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     float vertices[] = {
