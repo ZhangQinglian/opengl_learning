@@ -7,7 +7,7 @@ import com.zqlxtt.learnopengl.BaseSurfaceFragment
 class FragmentInitOpenGLES : BaseSurfaceFragment() {
 
     override fun onSurfaceCreated(holder: SurfaceHolder?) {
-        Log.d("scott","onSurfaceCreated")
+        Log.d("scott","initRenderThread")
         holder?.surface?.let {
             Log.d("scott","init open gl es")
             drawColor(0.5F,0.5F,1F,1F,it)

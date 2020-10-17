@@ -26,24 +26,24 @@ public:
     int surfaceWidth = 0;
     int surfaceHeight = 0;
 
-    typedef void(*OnSurfaceCreatedCallback)(void *ctx);
+    typedef void(*OnRenderInitCallback)(void *ctx);
 
-    typedef void(*OnSurfaceChangedCallback)(void *ctx, int surfaceWidth, int surfaceHeight);
+    typedef void(*OnWindowSizeChangedCallback)(void *ctx, int surfaceWidth, int surfaceHeight);
 
-    typedef void(*OnSurfaceDestroyCallback)(void *ctx);
+    typedef void(*OnRenderReleaseCallback)(void *ctx);
 
     typedef void(*OnDrawCallback)(void *ctx);
 
     typedef void(*OnFilterChangedCallback)(void *ctx, int surfaceWidth, int surfaceHeight);
 
-    OnSurfaceCreatedCallback onSurfaceCreatedCallback{};
-    void *onSurfaceCreatedCallbackCtx{};
+    OnRenderInitCallback onRenderInitCallback{};
+    void *onRenderInitCallbackCtx{};
 
-    OnSurfaceChangedCallback onSurfaceChangedCallback{};
-    void *onSurfaceChangedCallbackCtx{};
+    OnWindowSizeChangedCallback onWindowSizeChangedCallback{};
+    void *onWindowSizeChangedCallbackCtx{};
 
-    OnSurfaceDestroyCallback onSurfaceDestroyCallback{};
-    void *onSurfaceDestroyCallbackCtx{};
+    OnRenderReleaseCallback onRenderReleaseCallback{};
+    void *onRenderReleaseCallbackCtx{};
 
     OnDrawCallback onDrawCallback{};
     void *onDrawCallbackCtx{};
@@ -61,19 +61,19 @@ public:
 
     ~EGLThread();
 
-    void onSurfaceCreated(EGLNativeWindowType win);
+    void initRenderThread(EGLNativeWindowType win);
 
-    void onSurfaceChanged(int width, int height);
+    void windowSizeChanged(int width, int height);
 
-    void onSurfaceDestroy();
+    void releaseThread();
 
     void onFilterChanged();
 
-    void setOnSurfaceCreatedCallback(OnSurfaceCreatedCallback onSurfaceCreatedCallback, void *ctx);
+    void setOnRenderInitCallback(OnRenderInitCallback onSurfaceCreatedCallback, void *ctx);
 
-    void setOnSurfaceChangedCallback(OnSurfaceChangedCallback onSurfaceChangedCallback, void *ctx);
+    void setOnWindowSizeChangedCallback(OnWindowSizeChangedCallback onSurfaceChangedCallback, void *ctx);
 
-    void setOnSurfaceDestroyCallback(OnSurfaceDestroyCallback onSurfaceDestroyCallback, void *ctx);
+    void setOnRenderReleaseCallback(OnRenderReleaseCallback onSurfaceDestroyCallback, void *ctx);
 
     void setOnDrawCallback(OnDrawCallback onDrawCallback, void *ctx);
 

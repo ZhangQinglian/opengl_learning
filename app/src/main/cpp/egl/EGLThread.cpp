@@ -26,14 +26,14 @@ void *eglThreadRunnable(void *ctx) {
         while (true) {
             if (eglThread->isCreated) {
                 LOGI("egl thread: isCreated");
-                eglThread->onSurfaceCreatedCallback(eglThread->onSurfaceCreatedCallbackCtx);
+                eglThread->onRenderInitCallback(eglThread->onRenderInitCallbackCtx);
                 eglThread->isCreated = false;
             }
             if (eglThread->isChanged) {
                 LOGI("egl thread: isChanged");
-                eglThread->onSurfaceChangedCallback(eglThread->onSurfaceCreatedCallbackCtx,
-                                                    eglThread->surfaceWidth,
-                                                    eglThread->surfaceHeight);
+                eglThread->onWindowSizeChangedCallback(eglThread->onRenderInitCallbackCtx,
+                                                       eglThread->surfaceWidth,
+                                                       eglThread->surfaceHeight);
                 eglThread->isChanged = false;
                 eglThread->isDrawStart = true;
             }
@@ -61,7 +61,7 @@ void *eglThreadRunnable(void *ctx) {
             }
             if (eglThread->isExit) {
                 LOGI("egl thread: exit()");
-                eglThread->onSurfaceDestroyCallback(eglThread->onSurfaceDestroyCallbackCtx);
+                eglThread->onRenderReleaseCallback(eglThread->onRenderReleaseCallbackCtx);
                 eglHelper->destroyEGL();
                 delete eglHelper;
                 eglHelper = nullptr;
@@ -72,7 +72,7 @@ void *eglThreadRunnable(void *ctx) {
     return nullptr;
 }
 
-void EGLThread::onSurfaceCreated(EGLNativeWindowType win) {
+void EGLThread::initRenderThread(EGLNativeWindowType win) {
     if (eglThreadId == -1) {
         isCreated = true;
         nativeWindow = win;
@@ -80,14 +80,14 @@ void EGLThread::onSurfaceCreated(EGLNativeWindowType win) {
     }
 }
 
-void EGLThread::onSurfaceChanged(int width, int height) {
+void EGLThread::windowSizeChanged(int width, int height) {
     isChanged = true;
     surfaceWidth = width;
     surfaceHeight = height;
     notifyRender();
 }
 
-void EGLThread::onSurfaceDestroy() {
+void EGLThread::releaseThread() {
     isExit = true;
     notifyRender();
     pthread_join(eglThreadId, nullptr);
@@ -101,24 +101,24 @@ void EGLThread::onFilterChanged() {
 }
 
 void
-EGLThread::setOnSurfaceCreatedCallback(EGLThread::OnSurfaceCreatedCallback onSurfaceCreatedCallback,
-                                       void *ctx) {
-    this->onSurfaceCreatedCallback = onSurfaceCreatedCallback;
-    this->onSurfaceCreatedCallbackCtx = ctx;
+EGLThread::setOnRenderInitCallback(EGLThread::OnRenderInitCallback onSurfaceCreatedCallback,
+                                   void *ctx) {
+    this->onRenderInitCallback = onSurfaceCreatedCallback;
+    this->onRenderInitCallbackCtx = ctx;
 }
 
 void
-EGLThread::setOnSurfaceChangedCallback(EGLThread::OnSurfaceChangedCallback onSurfaceChangedCallback,
-                                       void *ctx) {
-    this->onSurfaceChangedCallback = onSurfaceChangedCallback;
-    this->onSurfaceChangedCallbackCtx = ctx;
+EGLThread::setOnWindowSizeChangedCallback(EGLThread::OnWindowSizeChangedCallback onSurfaceChangedCallback,
+                                          void *ctx) {
+    this->onWindowSizeChangedCallback = onSurfaceChangedCallback;
+    this->onWindowSizeChangedCallbackCtx = ctx;
 }
 
 void
-EGLThread::setOnSurfaceDestroyCallback(EGLThread::OnSurfaceDestroyCallback onSurfaceDestroyCallback,
-                                       void *ctx) {
-    this->onSurfaceDestroyCallback = onSurfaceDestroyCallback;
-    this->onSurfaceDestroyCallbackCtx = ctx;
+EGLThread::setOnRenderReleaseCallback(EGLThread::OnRenderReleaseCallback onSurfaceDestroyCallback,
+                                      void *ctx) {
+    this->onRenderReleaseCallback = onSurfaceDestroyCallback;
+    this->onRenderReleaseCallbackCtx = ctx;
 }
 
 void EGLThread::setOnDrawCallback(EGLThread::OnDrawCallback onDrawCallback, void *ctx) {

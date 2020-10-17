@@ -213,32 +213,32 @@ void GLHelper::drawColorTriangleWithThread(JNIEnv *env, jobject surface) {
 void GLHelper::onSurfaceCreated(JNIEnv *env, jobject surface) {
     eglThread = new EGLThread();
     eglThread->setRenderType(OPENGL_RENDER_MANUAL);
-    eglThread->setOnSurfaceCreatedCallback(onSurfaceCreatedCallback, this);
-    eglThread->setOnSurfaceChangedCallback(onSurfaceChangedCallback, this);
-    eglThread->setOnSurfaceDestroyCallback(onSurfaceDestroyCallback, this);
+    eglThread->setOnRenderInitCallback(onSurfaceCreatedCallback, this);
+    eglThread->setOnWindowSizeChangedCallback(onSurfaceChangedCallback, this);
+    eglThread->setOnRenderReleaseCallback(onSurfaceDestroyCallback, this);
     eglThread->setOnFilterChangedCallback(onFilterChangedCallback, this);
     eglThread->setOnDrawCallback(onDrawCallback, this);
-    eglThread->onSurfaceCreated(aNativeWindow);
+    eglThread->initRenderThread(aNativeWindow);
 }
 
 void GLHelper::onSurfaceChanged(int width, int height) {
-    eglThread->onSurfaceChanged(width, height);
+    eglThread->windowSizeChanged(width, height);
 }
 
 void GLHelper::onSurfaceDestroy() {
-    eglThread->onSurfaceDestroy();
+    eglThread->releaseThread();
 }
 
 void onSurfaceCreatedCallback(void *ctx) {
-    LOGI("gl: onSurfaceCreatedCallback");
+    LOGI("gl: onRenderInitCallback");
 }
 
 void onSurfaceChangedCallback(void *ctx, int width, int height) {
-    LOGI("gl: onSurfaceChangedCallback");
+    LOGI("gl: onWindowSizeChangedCallback");
 }
 
 void onSurfaceDestroyCallback(void *ctx) {
-    LOGI("gl: onSurfaceDestroyCallback");
+    LOGI("gl: onRenderReleaseCallback");
     auto *glHelper = static_cast<GLHelper *>(ctx);
     if (glHelper != nullptr) {
         delete glHelper->eglThread;
