@@ -1,7 +1,8 @@
-package com.zqlxtt.learnopengl
+package com.zqlxtt.learnopengl.l04
 
 import android.view.Surface
 import android.view.SurfaceHolder
+import com.zqlxtt.learnopengl.BaseSurfaceFragment
 
 class FragmentEGLThread : BaseSurfaceFragment() {
     override fun onSurfaceCreated(holder: SurfaceHolder?) {

@@ -216,8 +216,8 @@ void GLHelper::onSurfaceCreated(JNIEnv *env, jobject surface) {
     eglThread->setOnRenderInitCallback(onSurfaceCreatedCallback, this);
     eglThread->setOnWindowSizeChangedCallback(onSurfaceChangedCallback, this);
     eglThread->setOnRenderReleaseCallback(onSurfaceDestroyCallback, this);
-    eglThread->setOnFilterChangedCallback(onFilterChangedCallback, this);
-    eglThread->setOnDrawCallback(onDrawCallback, this);
+    eglThread->setOnFilterChangedCallback(onHelperFilterChangedCallback, this);
+    eglThread->setOnDrawCallback(onHelperDrawCallback, this);
     eglThread->initRenderThread(aNativeWindow);
 }
 
@@ -246,11 +246,11 @@ void onSurfaceDestroyCallback(void *ctx) {
     }
 }
 
-void onFilterChangedCallback(void *ctx, int width, int height) {
+void onHelperFilterChangedCallback(void *ctx, int width, int height) {
     LOGI("gl: onFilterChangedCallback");
 }
 
-void onDrawCallback(void *ctx) {
+void onHelperDrawCallback(void *ctx) {
     LOGI("gl: onDrawCallback");
     auto *glHelper = static_cast<GLHelper *>(ctx);
     glClearColor(1, 1, 1, 1);

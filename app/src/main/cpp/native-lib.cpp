@@ -30,7 +30,7 @@ Java_com_zqlxtt_learnopengl_BaseSurfaceFragment_drawColorTriangle(JNIEnv *env, j
     delete glHelper;
 }extern "C"
 JNIEXPORT void JNICALL
-Java_com_zqlxtt_learnopengl_FragmentEGLThread_drawTriangleWithThread(JNIEnv *env, jobject thiz,
+Java_com_zqlxtt_learnopengl_l04_FragmentEGLThread_drawTriangleWithThread(JNIEnv *env, jobject thiz,
                                                                      jobject surface) {
     glHelper = new GLHelper();
     glHelper->drawColorTriangleWithThread(env, surface);

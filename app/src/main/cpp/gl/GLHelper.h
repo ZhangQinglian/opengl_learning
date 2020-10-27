@@ -43,6 +43,6 @@ public:
 void onSurfaceCreatedCallback(void *ctx);
 void onSurfaceChangedCallback(void *ctx, int width, int height);
 void onSurfaceDestroyCallback(void *ctx);
-void onFilterChangedCallback(void *ctx, int width, int height);
-void onDrawCallback(void *ctx);
+void onHelperFilterChangedCallback(void *ctx, int width, int height);
+void onHelperDrawCallback(void *ctx);
 #endif //LEARNOPENGL_GLHELPER_H

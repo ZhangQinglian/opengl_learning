@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_blank" />
     <fragment
         android:id="@+id/fragmentEGLThread"
-        android:name="com.zqlxtt.learnopengl.FragmentEGLThread"
+        android:name="com.zqlxtt.learnopengl.l04.FragmentEGLThread"
         android:label="fragment_e_g_l_thread"
         tools:layout="@layout/fragment_e_g_l_thread" />
 </navigation>
