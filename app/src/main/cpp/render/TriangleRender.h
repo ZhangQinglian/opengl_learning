@@ -32,11 +32,8 @@ public:
     TriangleRender();
     ~TriangleRender();
     void processProgram();
-
     void processShader();
-
     void draw();
-
     void release();
 };
 

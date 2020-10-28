@@ -11,13 +11,15 @@
 
 class GLBaseRender {
 private:
+    //surface 宽度
     int windowWidth{0};
+    //surface 高度
     int windowHeight{0};
 public:
-    GLHelper *glHelper; //todo 注意回收
-    GLuint glVertexShader;
-    GLuint glFragmentShader;
-    GLuint glShaderProgram;
+    GLHelper *glHelper{};
+    GLuint glVertexShader{};
+    GLuint glFragmentShader{};
+    GLuint glShaderProgram{};
     GLBaseRender();
     virtual ~GLBaseRender();
     void changeWindowSize(int width,int height);

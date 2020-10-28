@@ -127,11 +127,16 @@ void GLHelper::singleDrawColorTriangle(JNIEnv *env, jobject surface) {
     delete eglHelper;
 }
 
-GLHelper::GLHelper() = default;
+GLHelper::GLHelper(){
+    LOGI("[GLHelper]: GLHelper constructor");
+}
 
-GLHelper::~GLHelper() = default;
+GLHelper::~GLHelper(){
+    LOGI("[GLHelper]: GLHelper destructor");
+}
 
 GLuint GLHelper::loadShader(GLenum type, const char *shaderSrc) {
+    LOGI("[GLHelper]: loadShader: \n%s", shaderSrc);
     GLuint shader;
     // create the shader object
     shader = glCreateShader(type);
@@ -172,13 +177,14 @@ GLint GLHelper::checkShaderCompiled(GLuint shader) {
     return GL_TRUE;
 }
 
-GLuint GLHelper::loadProgram(GLuint vertextShader, GLuint fragmentShader) {
+GLuint GLHelper::loadProgram(GLuint vertexShader, GLuint fragmentShader) {
+    LOGI("[GLHelper]: loadProgram");
     GLuint program;
     program = glCreateProgram();
     if (program == 0) {
         return GL_FALSE;
     }
-    glAttachShader(program, vertextShader);
+    glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
     if (checkProgramLinked(program)) {

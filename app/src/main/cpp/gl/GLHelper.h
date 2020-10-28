@@ -11,8 +11,8 @@
 
 class GLHelper {
 public:
-    EGLThread *eglThread;
-    ANativeWindow *aNativeWindow;
+    EGLThread *eglThread{};
+    ANativeWindow *aNativeWindow{};
 public:
     GLHelper();
 
@@ -26,7 +26,7 @@ public:
 
     GLuint loadShader(GLenum type, const char *shaderSrc);
 
-    GLuint loadProgram(GLuint vertextShader, GLuint fragmentShader);
+    GLuint loadProgram(GLuint vertexShader, GLuint fragmentShader);
 
     void singleDrawColor(JNIEnv *env, jobject surface, float, float, float, float);
 
@@ -36,9 +36,9 @@ public:
 
     void drawColorTriangleWithThread(JNIEnv *env, jobject surface);
 
-    GLint checkShaderCompiled(GLuint shader);
+    static GLint checkShaderCompiled(GLuint shader);
 
-    GLint checkProgramLinked(GLuint program);
+    static GLint checkProgramLinked(GLuint program);
 
 };
 void onSurfaceCreatedCallback(void *ctx);
