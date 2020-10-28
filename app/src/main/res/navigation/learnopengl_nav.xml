@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_openglStuffFragment_to_fragmentEGLThread"
             app:destination="@id/fragmentEGLThread" />
+        <action
+            android:id="@+id/action_openglStuffFragment_to_renderTriangleFragment"
+            app:destination="@id/renderTriangleFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentInitOpenGLES"
@@ -43,4 +46,9 @@
         android:name="com.zqlxtt.learnopengl.l04.FragmentEGLThread"
         android:label="fragment_e_g_l_thread"
         tools:layout="@layout/fragment_e_g_l_thread" />
+    <fragment
+        android:id="@+id/renderTriangleFragment"
+        android:name="com.zqlxtt.learnopengl.l05.RenderTriangleFragment"
+        android:label="fragment_render_triangle"
+        tools:layout="@layout/fragment_render_triangle" />
 </navigation>

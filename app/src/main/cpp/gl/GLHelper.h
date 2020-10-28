@@ -5,6 +5,7 @@
 #ifndef LEARNOPENGL_GLHELPER_H
 #define LEARNOPENGL_GLHELPER_H
 
+#include <jni.h>
 #include <GLES3/gl3.h>
 #include "../egl/EGLThread.h"
 

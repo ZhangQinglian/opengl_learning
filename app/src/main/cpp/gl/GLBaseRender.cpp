@@ -6,8 +6,9 @@
 #include "GLBaseRender.h"
 
 void GLBaseRender::renderInit() {
-    vertexShader = getVertexShader();
-    fragmentShader = getFragmentShader();
+    glHelper = new GLHelper();
+    processShader();
+    processProgram();
 }
 
 void GLBaseRender::changeWindowSize(int width, int height) {
@@ -21,6 +22,5 @@ GLBaseRender::GLBaseRender() {
 }
 
 GLBaseRender::~GLBaseRender() {
-    delete vertexShader;
-    delete fragmentShader;
+    delete glHelper;
 }

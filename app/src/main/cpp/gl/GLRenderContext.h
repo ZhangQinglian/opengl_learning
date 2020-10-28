@@ -12,9 +12,9 @@
 
 class GLRenderContext {
 public:
-    EGLThread *eglThread;
-    GLBaseRender *glRender;
-    ANativeWindow *aNativeWindow;
+    EGLThread *eglThread{};
+    GLBaseRender *glRender{};
+    ANativeWindow *aNativeWindow{};
 
     GLRenderContext();
     ~GLRenderContext();

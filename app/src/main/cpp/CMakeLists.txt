@@ -23,6 +23,7 @@ add_library( # Sets the name of the library.
         gl/GLHelper.cpp
         gl/GLBaseRender.cpp
         gl/GLRenderContext.cpp
+        render/TriangleRender.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a

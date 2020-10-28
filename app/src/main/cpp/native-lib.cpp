@@ -2,6 +2,8 @@
 #include <string>
 #include "egl/EGLHelper.h"
 #include "gl/GLHelper.h"
+#include "gl/GLRenderContext.h"
+#include "render/TriangleRender.h"
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 
@@ -31,7 +33,7 @@ Java_com_zqlxtt_learnopengl_BaseSurfaceFragment_drawColorTriangle(JNIEnv *env, j
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_zqlxtt_learnopengl_l04_FragmentEGLThread_drawTriangleWithThread(JNIEnv *env, jobject thiz,
-                                                                     jobject surface) {
+                                                                         jobject surface) {
     glHelper = new GLHelper();
     glHelper->drawColorTriangleWithThread(env, surface);
 }extern "C"
@@ -55,4 +57,27 @@ Java_com_zqlxtt_learnopengl_BaseSurfaceFragment_onSurfaceDestroyN(JNIEnv *env, j
         glHelper->onSurfaceDestroy();
     }
     delete glHelper;
+}
+
+GLRenderContext *glRenderContext;
+TriangleRender *triangleRender;
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_zqlxtt_learnopengl_l05_RenderTriangleFragment_initDrawTriangleWithRender(JNIEnv *env,
+                                                                                  jobject thiz,
+                                                                                  jobject surface) {
+    glRenderContext = new GLRenderContext();
+    triangleRender = new TriangleRender();
+    glRenderContext->init(env, surface, triangleRender);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_zqlxtt_learnopengl_l05_RenderTriangleFragment_onSurfaceChanged05(JNIEnv *env, jobject thiz,
+                                                                          jint width, jint height) {
+    glRenderContext->windowSizeChanged(width, height);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_zqlxtt_learnopengl_l05_RenderTriangleFragment_onSurfaceDestroyed05(JNIEnv *env,
+                                                                            jobject thiz) {
+    glRenderContext->release();
+    delete glRenderContext;
 }

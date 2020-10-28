@@ -5,12 +5,12 @@
 #include <android/native_window_jni.h>
 #include "GLRenderContext.h"
 
-GLRenderContext::GLRenderContext() {
-
-}
+GLRenderContext::GLRenderContext() = default;
 
 GLRenderContext::~GLRenderContext() {
-
+    delete eglThread;
+    delete glRender;
+    ANativeWindow_release(aNativeWindow);
 }
 
 void GLRenderContext::init(JNIEnv *env, jobject surface, GLBaseRender *render) {
@@ -57,9 +57,12 @@ void onWindowSizeChangedCallback(void *ctx, int width, int height) {
 
 void onRenderReleaseCallback(void *ctx) {
     auto glRenderContext = static_cast<GLRenderContext *>(ctx);
+    auto render = glRenderContext->glRender;
     delete glRenderContext->eglThread;
     glRenderContext->eglThread = nullptr;
-
+    if (render != nullptr) {
+        render->release();
+    }
 }
 
 void onDrawCallback(void *ctx) {

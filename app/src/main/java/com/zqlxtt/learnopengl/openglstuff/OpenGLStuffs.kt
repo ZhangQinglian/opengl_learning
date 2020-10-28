@@ -35,6 +35,11 @@ object OpenGLStuffs {
             4,
             "OpenGLES 线程",
             R.id.action_openglStuffFragment_to_fragmentEGLThread
+        ),
+        OpenGLESLearningItem(
+            5,
+            "OpenGLES Render 渲染三角形",
+            R.id.action_openglStuffFragment_to_renderTriangleFragment
         )
     )
 
