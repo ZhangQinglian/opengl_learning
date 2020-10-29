@@ -7,6 +7,7 @@
 #include "../log/LogUtil.h"
 
 EGLHelper::EGLHelper() {
+    LOGI("[EGLHelper]: EGLHelper constructor");
     mEGLDisplay = EGL_NO_DISPLAY;
     mEGLSurface = EGL_NO_SURFACE;
     mEGLConfig = nullptr;
@@ -14,10 +15,11 @@ EGLHelper::EGLHelper() {
 }
 
 EGLHelper::~EGLHelper() {
-    // todo 释放资源
+    LOGI("[EGLHelper]: EGLHelper destructor");
 }
 
 int EGLHelper::initEGL(EGLNativeWindowType windowType) {
+    LOGI("[EGLHelper]: EGLHelper initEGL");
     //1. 获取默认显示设备
     mEGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (mEGLDisplay == EGL_NO_DISPLAY) {
@@ -27,7 +29,7 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
     }
 
     //2. 初始化默认显示设备
-    EGLint majorVersion,minorVersion;
+    EGLint majorVersion, minorVersion;
     if (!eglInitialize(mEGLDisplay, &majorVersion, &minorVersion)) {
         // Unable to initialize EGL; handle and recover
         LOGE("EGL: init display error !!!");
@@ -60,7 +62,7 @@ int EGLHelper::initEGL(EGLNativeWindowType windowType) {
     }
 
     //5. 创建 EGLContext
-    int attr_list[] = {EGL_CONTEXT_CLIENT_VERSION,3, EGL_NONE};
+    int attr_list[] = {EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE};
     mEGLContext = eglCreateContext(mEGLDisplay, mEGLConfig, EGL_NO_CONTEXT, attr_list);
     if (mEGLContext == EGL_NO_CONTEXT) {
         LOGE("EGL: create egl context error!!!");

@@ -8,16 +8,19 @@
 #include "../log/LogUtil.h"
 
 EGLThread::EGLThread() {
+    LOGI("[egl thread]: EGLThread constructor");
     pthread_mutex_init(&pthreadMutex, nullptr);
     pthread_cond_init(&pthreadCond, nullptr);
 }
 
 EGLThread::~EGLThread() {
+    LOGI("[egl thread]: EGLThread destructor");
     pthread_mutex_destroy(&pthreadMutex);
     pthread_cond_destroy(&pthreadCond);
 }
 
 void *eglThreadRunnable(void *ctx) {
+    LOGI("[egl thread]: start eglThreadRunnable");
     auto *eglThread = static_cast<EGLThread *>(ctx);
     if (eglThread != nullptr) {
         auto *eglHelper = new EGLHelper();
@@ -25,12 +28,12 @@ void *eglThreadRunnable(void *ctx) {
         eglThread->isExit = false;
         while (true) {
             if (eglThread->isCreated) {
-                LOGI("egl thread: isCreated");
+                LOGI("[egl thread]: isCreated");
                 eglThread->onRenderInitCallback(eglThread->onRenderInitCallbackCtx);
                 eglThread->isCreated = false;
             }
             if (eglThread->isChanged) {
-                LOGI("egl thread: isChanged");
+                LOGI("[egl thread]: isChanged");
                 eglThread->onWindowSizeChangedCallback(eglThread->onRenderInitCallbackCtx,
                                                        eglThread->surfaceWidth,
                                                        eglThread->surfaceHeight);
@@ -38,12 +41,12 @@ void *eglThreadRunnable(void *ctx) {
                 eglThread->isDrawStart = true;
             }
             if (eglThread->isDrawStart) {
-                LOGI("egl thread: isDrawStart");
+                LOGI("[egl thread]: isDrawStart");
                 eglThread->onDrawCallback(eglThread->onDrawCallbackCtx);
                 eglHelper->swapBuffers();
             }
             if (eglThread->isFilterChanged) {
-                LOGI("egl thread: isFilterChanged");
+                LOGI("[egl thread]: isFilterChanged");
                 eglThread->isFilterChanged = false;
                 eglThread->onFilterChangedCallback(eglThread->onFilterChangedCallbackCtx,
                                                    eglThread->surfaceWidth,
@@ -51,16 +54,16 @@ void *eglThreadRunnable(void *ctx) {
             }
 
             if (eglThread->renderType == OPENGL_RENDER_AUTO) {
-                LOGI("egl thread: sleep");
+                LOGI("[egl thread]: sleep");
                 usleep(1000000);
             } else {
                 pthread_mutex_lock(&eglThread->pthreadMutex);
-                LOGI("egl thread: wait for next draw");
+                LOGI("[egl thread]: wait for next draw");
                 pthread_cond_wait(&eglThread->pthreadCond, &eglThread->pthreadMutex);
                 pthread_mutex_unlock(&eglThread->pthreadMutex);
             }
             if (eglThread->isExit) {
-                LOGI("egl thread: exit()");
+                LOGI("[egl thread]: exit()");
                 eglThread->onRenderReleaseCallback(eglThread->onRenderReleaseCallbackCtx);
                 eglHelper->destroyEGL();
                 delete eglHelper;
@@ -73,6 +76,7 @@ void *eglThreadRunnable(void *ctx) {
 }
 
 void EGLThread::initRenderThread(EGLNativeWindowType win) {
+    LOGI("[egl thread]: initRenderThread");
     if (eglThreadId == -1) {
         isCreated = true;
         nativeWindow = win;
@@ -81,6 +85,7 @@ void EGLThread::initRenderThread(EGLNativeWindowType win) {
 }
 
 void EGLThread::windowSizeChanged(int width, int height) {
+    LOGI("[egl thread]: windowSizeChanged");
     isChanged = true;
     surfaceWidth = width;
     surfaceHeight = height;
@@ -88,6 +93,7 @@ void EGLThread::windowSizeChanged(int width, int height) {
 }
 
 void EGLThread::releaseThread() {
+    LOGI("[egl thread]: release thread");
     isExit = true;
     notifyRender();
     pthread_join(eglThreadId, nullptr);
@@ -138,6 +144,7 @@ void EGLThread::setRenderType(int renderType) {
 }
 
 void EGLThread::notifyRender() {
+    LOGI("[egl thread]: notifyRender");
     pthread_mutex_lock(&pthreadMutex);
     pthread_cond_signal(&pthreadCond);
     pthread_mutex_unlock(&pthreadMutex);

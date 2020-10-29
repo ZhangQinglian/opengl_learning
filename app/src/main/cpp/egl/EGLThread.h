@@ -61,8 +61,17 @@ public:
 
     ~EGLThread();
 
+    /**
+     * 初始化 EGLThread，此时 opengl 渲染还没有真正开始，需要调用 @see ::windowSizeChanged 来触发渲染
+     * @param win 本地窗口，@see ANativeWindow_fromSurface
+     */
     void initRenderThread(EGLNativeWindowType win);
 
+    /**
+     * 指定 opengl 中 viewport 大小，此方法调用后会触发 opengl 真正的渲染流程
+     * @param width
+     * @param height
+     */
     void windowSizeChanged(int width, int height);
 
     void releaseThread();
